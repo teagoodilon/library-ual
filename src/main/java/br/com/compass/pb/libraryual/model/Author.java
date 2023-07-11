@@ -15,8 +15,8 @@ public class Author {
     @NotBlank
     private String name;
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createDate;
+    private LocalDateTime createdAt;
     @Temporal(TemporalType.TIMESTAMP)
-    private  LocalDateTime updateDate;
+    private LocalDateTime updatedAt;
 
 }

@@ -17,8 +17,7 @@ public class AuthorController {
 
     @GetMapping("/")
     public List<AuthorDTO> findAll(){
-        List<AuthorDTO> result = authorService.findAll();
-        return  result;
+        return authorService.findAll();
     }
 
     @GetMapping("/{id}")

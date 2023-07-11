@@ -35,13 +35,13 @@ public class AuthorService {
 
     public Author insert(AuthorDTO authorDTO) {
         Author author = AuthorDTO.convertToEntity(authorDTO);
-        author.setCreateDate(LocalDateTime.now());
+        author.setCreatedAt(LocalDateTime.now());
         return authorRepository.saveAndFlush(author);
     }
 
     public Author update(AuthorDTO authorDTO) {
         Author author = AuthorDTO.convertToEntity(authorDTO);
-        author.setUpdateDate(LocalDateTime.now());
+        author.setUpdatedAt(LocalDateTime.now());
         return authorRepository.saveAndFlush(author);
     }
 
