@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthorService {
@@ -15,25 +17,36 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
-    public List<AuthorDTO> findAll(){
-        var result = authorRepository.findAll();
-        return result.stream().map(x -> new AuthorDTO(x)).toList();
+    public List<AuthorDTO> findAll() {
+        List<Author> authors = authorRepository.findAll();
+        return authors.stream()
+                .map(AuthorDTO::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    public Author insert(Author object){
-        object.setCreateDate(LocalDateTime.now());
-        Author newObject = authorRepository.saveAndFlush(object);
-        return newObject;
+    public AuthorDTO findById(Long id) {
+        Optional<Author> authorOptional = authorRepository.findById(id);
+        if (authorOptional.isPresent()) {
+            Author author = authorOptional.get();
+            return AuthorDTO.convertToDto(author);
+        }
+        return null;
     }
 
-    public Author update(Author object){
-        object.setUpdateDate(LocalDateTime.now());
-        return authorRepository.saveAndFlush(object);
+    public Author insert(AuthorDTO authorDTO) {
+        Author author = AuthorDTO.convertToEntity(authorDTO);
+        author.setCreateDate(LocalDateTime.now());
+        return authorRepository.saveAndFlush(author);
     }
 
-    public void delete(Long id){
-        Author object = authorRepository.findById(id).get();
-        authorRepository.delete(object);
+    public Author update(AuthorDTO authorDTO) {
+        Author author = AuthorDTO.convertToEntity(authorDTO);
+        author.setUpdateDate(LocalDateTime.now());
+        return authorRepository.saveAndFlush(author);
+    }
+
+    public void delete(Long id) {
+        authorRepository.deleteById(id);
     }
 
 }

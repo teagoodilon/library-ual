@@ -21,14 +21,24 @@ public class AuthorController {
         return  result;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AuthorDTO> findById(@PathVariable Long id) {
+        AuthorDTO authorDTO = authorService.findById(id);
+        if (authorDTO != null) {
+            return ResponseEntity.ok(authorDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/")
     public Author insert(@RequestBody Author object){
-        return authorService.insert(object);
+        return authorService.insert(AuthorDTO.convertToDto(object));
     }
 
     @PutMapping("/")
     public Author update(@RequestBody Author object){
-        return authorService.update(object);
+        return authorService.update(AuthorDTO.convertToDto(object));
     }
 
     @DeleteMapping("/{id}")
