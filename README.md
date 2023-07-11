@@ -1,4 +1,4 @@
-# library-ual
+# Library-Ual
 Second project made in schollarship at Compass UOL, with the objective of organizing the books of a library.
 
 ### ✈️ Getting Started
@@ -24,7 +24,7 @@ Second project made in schollarship at Compass UOL, with the objective of organi
 
 
 
-### Collaborators
+### 💼 Collaborators
 
 - [Thiago Odilon de Almeida](https://github.com/teagoodilon)
 - [Kallyne Almeida da Rocha](https://github.com/KallyneRocha)
