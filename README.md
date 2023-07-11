@@ -21,8 +21,12 @@ Second project made in schollarship at Compass UOL, with the objective of organi
 
 ### 📋 Dependencies
 
+The project's dependencies are in the [pom.xml] file (https://github.com/teagoodilon/library-ual/blob/main/pom.xml) composed by the following list:
 
-
+-
+-
+-
+-
 
 ### 💼 Collaborators
 
