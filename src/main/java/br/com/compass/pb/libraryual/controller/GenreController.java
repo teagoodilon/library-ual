@@ -21,14 +21,24 @@ public class GenreController {
         return genreService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<GenreDTO> findById(@PathVariable Long id) {
+        GenreDTO genreDTO = genreService.findById(id);
+        if (genreDTO != null) {
+            return ResponseEntity.ok(genreDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/")
     public Genre insert(@RequestBody Genre object){
-        return genreService.insert(object);
+        return genreService.insert(GenreDTO.convertToDto(object));
     }
 
     @PutMapping("/")
     public Genre update(@RequestBody Genre object){
-        return genreService.update(object);
+        return genreService.update(GenreDTO.convertToDto(object));
     }
 
     @DeleteMapping("/{id}")

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GenreService {
@@ -16,22 +18,34 @@ public class GenreService {
     private GenreRepository genreRepository;
 
     public List<GenreDTO> findAll(){
-        var result = genreRepository.findAll();
-        return result.stream().map(GenreDTO::new).toList();
+        List<Genre> genres = genreRepository.findAll();
+        return genres.stream()
+                .map(GenreDTO::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    public Genre insert(Genre object){
-        object.setCreatedAt(LocalDateTime.now());
-        return genreRepository.saveAndFlush(object);
+    public GenreDTO findById(Long id) {
+        Optional<Genre> genreOptional = genreRepository.findById(id);
+        if (genreOptional.isPresent()) {
+            Genre genres = genreOptional.get();
+            return GenreDTO.convertToDto(genres);
+        }
+        return null;
     }
 
-    public Genre update(Genre object){
-        object.setUpdateAt(LocalDateTime.now());
-        return genreRepository.saveAndFlush(object);
+    public Genre insert(GenreDTO genreDTO){
+        Genre genre = GenreDTO.convertToEntity(genreDTO);
+        genre.setCreatedAt(LocalDateTime.now());
+        return genreRepository.saveAndFlush(genre);
+    }
+
+    public Genre update(GenreDTO genreDTO){
+        Genre genre = GenreDTO.convertToEntity(genreDTO);
+        genre.setUpdateAt(LocalDateTime.now());
+        return genreRepository.saveAndFlush(genre);
     }
 
     public void delete(Long id){
-        Genre object = genreRepository.findById(id).get();
-        genreRepository.delete(object);
+        genreRepository.deleteById(id);
     }
 }
