@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.BookDTO;
 import br.com.compass.pb.libraryual.domain.entity.Book;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class BookService {
             Book book = optionalBook.get();
             return new BookDTO(book);
         }
-        return null;
+        throw new ResourceNotFoundException("Book", "Book not found with ID: " + id);
     }
 
     public List<BookDTO> findAll() {

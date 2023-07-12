@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual.controller;
 
 import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
 import br.com.compass.pb.libraryual.domain.entity.Author;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class AuthorController {
         if (authorDTO != null) {
             return ResponseEntity.ok(authorDTO);
         } else {
-            return ResponseEntity.notFound().build();
+            throw new ResourceNotFoundException("Author", "Author not found with ID: " + id);
         }
     }
 
