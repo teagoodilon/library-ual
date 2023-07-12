@@ -1,6 +1,6 @@
 package br.com.compass.pb.libraryual.controller;
 
-import br.com.compass.pb.libraryual.model.Book;
+import br.com.compass.pb.libraryual.domain.entity.Book;
 import br.com.compass.pb.libraryual.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

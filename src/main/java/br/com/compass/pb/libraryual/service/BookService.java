@@ -1,6 +1,6 @@
 package br.com.compass.pb.libraryual.service;
 
-import br.com.compass.pb.libraryual.model.Book;
+import br.com.compass.pb.libraryual.domain.entity.Book;
 import br.com.compass.pb.libraryual.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,11 @@ public class BookService {
 
     public Book insert(Book object){
         object.setCreatedAt(LocalDateTime.now());
-        Book objectNew = bookRepository.saveAndFlush(object);
-        return objectNew;
+        return bookRepository.saveAndFlush(object);
     }
 
     public Book update(Book object){
-        object.setCreatedAt(LocalDateTime.now());
+        object.setUpdatedAt(LocalDateTime.now());
         return bookRepository.saveAndFlush(object);
     }
 
