@@ -2,7 +2,6 @@ package br.com.compass.pb.libraryual.controller;
 
 
 import br.com.compass.pb.libraryual.domain.dto.GenreDTO;
-import br.com.compass.pb.libraryual.domain.entity.Genre;
 import br.com.compass.pb.libraryual.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +31,13 @@ public class GenreController {
     }
 
     @PostMapping("/")
-    public Genre insert(@RequestBody Genre object){
-        return genreService.insert(GenreDTO.convertToDto(object));
+    public GenreDTO insert(@RequestBody GenreDTO object){
+        return genreService.insert(object);
     }
 
-    @PutMapping("/")
-    public Genre update(@RequestBody Genre object){
-        return genreService.update(GenreDTO.convertToDto(object));
+    @PutMapping("/{id}")
+    public GenreDTO update(@PathVariable ("id") Long id, @RequestBody GenreDTO object){
+        return genreService.update(id, object);
     }
 
     @DeleteMapping("/{id}")

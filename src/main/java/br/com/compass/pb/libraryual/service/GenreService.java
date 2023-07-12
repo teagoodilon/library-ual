@@ -33,16 +33,23 @@ public class GenreService {
         return null;
     }
 
-    public Genre insert(GenreDTO genreDTO){
-        Genre genre = GenreDTO.convertToEntity(genreDTO);
+    public GenreDTO insert(GenreDTO genreDTO){
+        Genre genre = genreDTO.toEntity();
         genre.setCreatedAt(LocalDateTime.now());
-        return genreRepository.saveAndFlush(genre);
+        Genre createdGenre = genreRepository.saveAndFlush(genre);
+        return new GenreDTO(createdGenre);
     }
 
-    public Genre update (GenreDTO genreDTO){
-        Genre genre = GenreDTO.convertToEntity(genreDTO);
-        genre.setUpdatedAt(LocalDateTime.now());
-        return genreRepository.saveAndFlush(genre);
+    public GenreDTO update (Long id, GenreDTO genreDTO){
+        Optional<Genre> optionalGenre = genreRepository.findById(id);
+        if(optionalGenre.isPresent()){
+            Genre genre = optionalGenre.get();
+            genre.setName(genreDTO.getName());
+            genre.setUpdatedAt(LocalDateTime.now());
+            Genre updatedGenre = genreRepository.saveAndFlush(genre);
+            return new GenreDTO(updatedGenre);
+        }
+        return null;
     }
 
     public void delete(Long id){

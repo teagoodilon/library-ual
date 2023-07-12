@@ -33,16 +33,23 @@ public class AuthorService {
         return null;
     }
 
-    public Author insert(AuthorDTO authorDTO) {
-        Author author = AuthorDTO.convertToEntity(authorDTO);
+    public AuthorDTO insert(AuthorDTO authorDTO) {
+        Author author = authorDTO.toEntity();
         author.setCreatedAt(LocalDateTime.now());
-        return authorRepository.saveAndFlush(author);
+        Author createdAuthor = authorRepository.saveAndFlush(author);
+        return new AuthorDTO(createdAuthor);
     }
 
-    public Author update(AuthorDTO authorDTO) {
-        Author author = AuthorDTO.convertToEntity(authorDTO);
-        author.setUpdatedAt(LocalDateTime.now());
-        return authorRepository.saveAndFlush(author);
+    public AuthorDTO update(Long id, AuthorDTO authorDTO) {
+        Optional<Author> optionalAuthor = authorRepository.findById(id);
+        if(optionalAuthor.isPresent()){
+            Author author = optionalAuthor.get();
+            author.setName(authorDTO.getName());
+            author.setUpdatedAt(LocalDateTime.now());
+            Author updatedAuthor = authorRepository.saveAndFlush(author);
+            return new AuthorDTO(updatedAuthor);
+        }
+        return null;
     }
 
     public void delete(Long id) {

@@ -3,6 +3,8 @@ package br.com.compass.pb.libraryual.domain.dto;
 import br.com.compass.pb.libraryual.domain.entity.PublishingCompany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
+
 @Data
 
 public class PublishingCompanyDTO {
@@ -14,14 +16,17 @@ public class PublishingCompanyDTO {
        this.name = name;
    }
 
+    public PublishingCompanyDTO(PublishingCompany entity) {
+        BeanUtils.copyProperties(entity, this);
+    }
+
    public static PublishingCompanyDTO convertToDto(PublishingCompany entity) {
        return new PublishingCompanyDTO(entity.getId(), entity.getName());
    }
 
-   public static PublishingCompany convertToEntity(PublishingCompanyDTO entityDTO) {
-       PublishingCompany publishingCompany = new PublishingCompany();
-       publishingCompany.setId(entityDTO.getId());
-       publishingCompany.setName(entityDTO.getName());
-       return publishingCompany;
+   public PublishingCompany toEntity() {
+       PublishingCompany entity = new PublishingCompany();
+       BeanUtils.copyProperties(this, entity);
+       return entity;
    }
 }

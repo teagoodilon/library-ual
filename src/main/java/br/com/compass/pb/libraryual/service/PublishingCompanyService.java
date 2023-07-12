@@ -32,16 +32,23 @@ public class PublishingCompanyService {
         return null;
     }
 
-    public PublishingCompany insert(PublishingCompanyDTO publishingCompanyDTO) {
-        PublishingCompany publishingCompany = PublishingCompanyDTO.convertToEntity(publishingCompanyDTO);
+    public PublishingCompanyDTO insert(PublishingCompanyDTO publishingCompanyDTO) {
+        PublishingCompany publishingCompany = publishingCompanyDTO.toEntity();
         publishingCompany.setCreatedAt(LocalDateTime.now());
-        return publishingCompanyRepository.saveAndFlush(publishingCompany);
+        PublishingCompany createdPublishingCompany = publishingCompanyRepository.saveAndFlush(publishingCompany);
+        return new PublishingCompanyDTO(createdPublishingCompany);
     }
 
-    public PublishingCompany update(PublishingCompanyDTO publishingCompanyDTO) {
-        PublishingCompany publishingCompany = PublishingCompanyDTO.convertToEntity(publishingCompanyDTO);
-        publishingCompany.setUpdateAt(LocalDateTime.now());
-        return publishingCompanyRepository.saveAndFlush(publishingCompany);
+    public PublishingCompanyDTO update(Long id, PublishingCompanyDTO publishingCompanyDTO) {
+        Optional<PublishingCompany> optionalPublishingCompany = publishingCompanyRepository.findById(id);
+        if(optionalPublishingCompany.isPresent()){
+            PublishingCompany publishingCompany = optionalPublishingCompany.get();
+            publishingCompany.setName(publishingCompanyDTO.getName());
+            publishingCompany.setUpdatedAt(LocalDateTime.now());
+            PublishingCompany updatedPublishingCompany = publishingCompanyRepository.saveAndFlush(publishingCompany);
+            return new PublishingCompanyDTO(updatedPublishingCompany);
+        }
+        return null;
     }
 
     public void delete(Long id) {

@@ -20,6 +20,7 @@ public class PublishingCompany {
     private LocalDateTime createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
+
 }
 

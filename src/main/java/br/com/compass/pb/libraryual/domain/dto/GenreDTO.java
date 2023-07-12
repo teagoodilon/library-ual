@@ -3,6 +3,7 @@ package br.com.compass.pb.libraryual.domain.dto;
 import br.com.compass.pb.libraryual.domain.entity.Genre;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 @Data
 public class GenreDTO {
@@ -14,15 +15,17 @@ public class GenreDTO {
         this.name = name;
     }
 
+    public GenreDTO(Genre entity) {
+        BeanUtils.copyProperties(entity, this);
+    }
     public static GenreDTO convertToDto(Genre entity){
         return new GenreDTO(entity.getId(), entity.getName());
     }
 
-    public static Genre convertToEntity(GenreDTO entityDTO){
-        Genre genre = new Genre();
-        genre.setId(entityDTO.getId());
-        genre.setName(entityDTO.getName());
-        return genre;
+    public Genre toEntity(){
+        Genre entity = new Genre();
+        BeanUtils.copyProperties(this, entity);
+        return entity;
     }
 
 }
