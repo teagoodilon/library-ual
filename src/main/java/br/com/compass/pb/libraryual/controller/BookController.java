@@ -1,6 +1,6 @@
 package br.com.compass.pb.libraryual.controller;
 
-import br.com.compass.pb.libraryual.domain.entity.Book;
+import br.com.compass.pb.libraryual.domain.dto.BookDTO;
 import br.com.compass.pb.libraryual.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,24 +16,26 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/")
-    public List<Book> findAll(){
+    public List<BookDTO> findAll() {
         return bookService.findAll();
     }
-
+    @GetMapping("/{id}")
+    public BookDTO findById(@PathVariable("id") Long id) {
+        return bookService.findById(id);
+    }
     @PostMapping("/")
-    public Book insert(@RequestBody Book object){
-        return bookService.insert(object);
+    public BookDTO insert(@RequestBody BookDTO bookDTO) {
+        return bookService.insert(bookDTO);
     }
 
-    @PutMapping("/")
-    public Book update(@RequestBody Book object){
-        return bookService.update(object);
+    @PutMapping("/{id}")
+    public BookDTO update(@PathVariable("id") Long id, @RequestBody BookDTO bookDTO) {
+        return bookService.update(id, bookDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         bookService.delete(id);
         return ResponseEntity.ok().build();
     }
-
 }
