@@ -1,7 +1,7 @@
 package br.com.compass.pb.libraryual.service;
 
-import br.com.compass.pb.libraryual.dto.PublishingCompanyDTO;
-import br.com.compass.pb.libraryual.model.PublishingCompany;
+import br.com.compass.pb.libraryual.domain.dto.PublishingCompanyDTO;
+import br.com.compass.pb.libraryual.domain.entity.PublishingCompany;
 import br.com.compass.pb.libraryual.repository.PublishingCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +13,8 @@ import java.util.stream.Collectors;
 @Service
 public class PublishingCompanyService {
 
-    private final PublishingCompanyRepository publishingCompanyRepository;
-
     @Autowired
-    public PublishingCompanyService(PublishingCompanyRepository publishingCompanyRepository) {
-        this.publishingCompanyRepository = publishingCompanyRepository;
-    }
+    private PublishingCompanyRepository publishingCompanyRepository;
 
     public List<PublishingCompanyDTO> findAll() {
         List<PublishingCompany> publishingCompanies = publishingCompanyRepository.findAll();
@@ -38,13 +34,13 @@ public class PublishingCompanyService {
 
     public PublishingCompany insert(PublishingCompanyDTO publishingCompanyDTO) {
         PublishingCompany publishingCompany = PublishingCompanyDTO.convertToEntity(publishingCompanyDTO);
-        publishingCompany.setCreateDate(LocalDateTime.now());
+        publishingCompany.setCreatedAt(LocalDateTime.now());
         return publishingCompanyRepository.saveAndFlush(publishingCompany);
     }
 
     public PublishingCompany update(PublishingCompanyDTO publishingCompanyDTO) {
         PublishingCompany publishingCompany = PublishingCompanyDTO.convertToEntity(publishingCompanyDTO);
-        publishingCompany.setUpdateDate(LocalDateTime.now());
+        publishingCompany.setUpdateAt(LocalDateTime.now());
         return publishingCompanyRepository.saveAndFlush(publishingCompany);
     }
 

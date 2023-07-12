@@ -1,7 +1,7 @@
 package br.com.compass.pb.libraryual.service;
 
-import br.com.compass.pb.libraryual.dto.AuthorDTO;
-import br.com.compass.pb.libraryual.model.Author;
+import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
+import br.com.compass.pb.libraryual.domain.entity.Author;
 import br.com.compass.pb.libraryual.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

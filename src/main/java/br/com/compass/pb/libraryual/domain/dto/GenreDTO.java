@@ -1,6 +1,6 @@
-package br.com.compass.pb.libraryual.dto;
+package br.com.compass.pb.libraryual.domain.dto;
 
-import br.com.compass.pb.libraryual.model.Genre;
+import br.com.compass.pb.libraryual.domain.entity.Genre;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -9,14 +9,9 @@ public class GenreDTO {
     private Long id;
     private String name;
 
-    public GenreDTO(){}
     public GenreDTO(Long id, @NotBlank String name){
         this.id = id;
         this.name = name;
-    }
-    public GenreDTO(Genre entity){
-        id = entity.getId();
-        name = entity.getName();
     }
 
     public static GenreDTO convertToDto(Genre entity){

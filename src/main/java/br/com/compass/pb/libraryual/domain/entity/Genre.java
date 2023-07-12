@@ -1,4 +1,4 @@
-package br.com.compass.pb.libraryual.model;
+package br.com.compass.pb.libraryual.domain.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

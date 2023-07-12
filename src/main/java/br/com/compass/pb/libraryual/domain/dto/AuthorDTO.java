@@ -1,6 +1,6 @@
-package br.com.compass.pb.libraryual.dto;
+package br.com.compass.pb.libraryual.domain.dto;
 
-import br.com.compass.pb.libraryual.model.Author;
+import br.com.compass.pb.libraryual.domain.entity.Author;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -9,15 +9,9 @@ public class AuthorDTO {
     private Long id;
     private String name;
 
-    public AuthorDTO(){
-    }
     public AuthorDTO(Long id, @NotBlank String name) {
         this.id = id;
         this.name = name;
-    }
-    public AuthorDTO(Author entity) {
-        id = entity.getId();
-        name = entity.getName();
     }
 
     public static AuthorDTO convertToDto(Author author) {

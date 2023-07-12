@@ -1,7 +1,7 @@
 package br.com.compass.pb.libraryual.service;
 
-import br.com.compass.pb.libraryual.dto.GenreDTO;
-import br.com.compass.pb.libraryual.model.Genre;
+import br.com.compass.pb.libraryual.domain.dto.GenreDTO;
+import br.com.compass.pb.libraryual.domain.entity.Genre;
 import br.com.compass.pb.libraryual.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
