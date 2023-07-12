@@ -39,9 +39,9 @@ public class GenreService {
         return genreRepository.saveAndFlush(genre);
     }
 
-    public Genre update(GenreDTO genreDTO){
+    public Genre update (GenreDTO genreDTO){
         Genre genre = GenreDTO.convertToEntity(genreDTO);
-        genre.setUpdateAt(LocalDateTime.now());
+        genre.setUpdatedAt(LocalDateTime.now());
         return genreRepository.saveAndFlush(genre);
     }
 
