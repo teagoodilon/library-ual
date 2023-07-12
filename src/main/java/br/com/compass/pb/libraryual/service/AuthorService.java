@@ -2,7 +2,9 @@ package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
 import br.com.compass.pb.libraryual.domain.entity.Author;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.AuthorRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,16 +32,16 @@ public class AuthorService {
             Author author = authorOptional.get();
             return AuthorDTO.convertToDto(author);
         }
-        return null;
+        throw new ResourceNotFoundException("Author", "Author not found with ID: " + id);
     }
 
-    public Author insert(AuthorDTO authorDTO) {
+    public Author insert(@Valid AuthorDTO authorDTO) {
         Author author = AuthorDTO.convertToEntity(authorDTO);
         author.setCreatedAt(LocalDateTime.now());
         return authorRepository.saveAndFlush(author);
     }
 
-    public Author update(AuthorDTO authorDTO) {
+    public Author update(@Valid AuthorDTO authorDTO) {
         Author author = AuthorDTO.convertToEntity(authorDTO);
         author.setUpdatedAt(LocalDateTime.now());
         return authorRepository.saveAndFlush(author);
@@ -48,5 +50,5 @@ public class AuthorService {
     public void delete(Long id) {
         authorRepository.deleteById(id);
     }
-
 }
+

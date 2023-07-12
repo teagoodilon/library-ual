@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.PublishingCompanyDTO;
 import br.com.compass.pb.libraryual.domain.entity.PublishingCompany;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.PublishingCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class PublishingCompanyService {
             PublishingCompany publishingCompany = publishingCompanyOptional.get();
             return PublishingCompanyDTO.convertToDto(publishingCompany);
         }
-        return null;
+        throw new ResourceNotFoundException("Publishing Company", "Publishing Company not found with ID: " + id);
     }
 
     public PublishingCompany insert(PublishingCompanyDTO publishingCompanyDTO) {

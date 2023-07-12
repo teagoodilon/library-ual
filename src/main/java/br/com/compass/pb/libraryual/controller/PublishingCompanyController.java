@@ -24,11 +24,7 @@ public class PublishingCompanyController {
     @GetMapping("/{id}")
     public ResponseEntity<PublishingCompanyDTO> findById(@PathVariable Long id) {
         PublishingCompanyDTO publishingCompanyDTO = publishingCompanyService.findById(id);
-        if (publishingCompanyDTO  != null) {
             return ResponseEntity.ok(publishingCompanyDTO);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PostMapping("/")

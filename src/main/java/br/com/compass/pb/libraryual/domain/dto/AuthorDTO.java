@@ -1,15 +1,18 @@
 package br.com.compass.pb.libraryual.domain.dto;
 
 import br.com.compass.pb.libraryual.domain.entity.Author;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
 
 @Data
 public class AuthorDTO {
     private Long id;
+
+    @NotEmpty
     private String name;
 
-    public AuthorDTO(Long id, @NotBlank String name) {
+    public AuthorDTO(Long id, String name) {
         this.id = id;
         this.name = name;
     }
