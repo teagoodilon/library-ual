@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 
 public class PublishingCompanyDTO {
    private Long id;
+   @NotBlank
    private String name;
 
    public PublishingCompanyDTO(Long id, @NotBlank String name) {

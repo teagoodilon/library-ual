@@ -3,6 +3,7 @@ package br.com.compass.pb.libraryual.controller;
 import br.com.compass.pb.libraryual.domain.dto.PublishingCompanyDTO;
 import br.com.compass.pb.libraryual.service.PublishingCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,12 @@ public class PublishingCompanyController {
     }
 
     @PostMapping("/")
-    public PublishingCompanyDTO insert(@RequestBody PublishingCompanyDTO publishingCompanyDTO) {
+    public PublishingCompanyDTO insert(@Valid @RequestBody PublishingCompanyDTO publishingCompanyDTO) {
         return publishingCompanyService.insert(publishingCompanyDTO);
     }
 
     @PutMapping("/{id}")
-    public PublishingCompanyDTO update(@PathVariable ("id") Long id, @RequestBody PublishingCompanyDTO object) {
+    public PublishingCompanyDTO update(@PathVariable ("id") Long id, @Valid @RequestBody PublishingCompanyDTO object) {
         return publishingCompanyService.update(id, object);
     }
 

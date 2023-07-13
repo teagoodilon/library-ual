@@ -8,9 +8,11 @@ import org.springframework.beans.BeanUtils;
 @Data
 public class GenreDTO {
     private Long id;
+
+    @NotBlank(message = "ORAZIO")
     private String name;
 
-    public GenreDTO(Long id, @NotBlank String name){
+    public GenreDTO(Long id, String name){
         this.id = id;
         this.name = name;
     }

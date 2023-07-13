@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual.controller;
 
 import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
 import br.com.compass.pb.libraryual.service.AuthorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +31,12 @@ public class AuthorController {
     }
 
     @PostMapping("/")
-    public AuthorDTO insert(@RequestBody AuthorDTO authorDTO){
+    public AuthorDTO insert(@Valid @RequestBody AuthorDTO authorDTO){
         return authorService.insert(authorDTO);
     }
 
     @PutMapping("/{id}")
-    public AuthorDTO update(@PathVariable ("id") Long id, @RequestBody AuthorDTO authorDTO){
+    public AuthorDTO update(@PathVariable ("id") Long id, @Valid @RequestBody AuthorDTO authorDTO){
         return authorService.update(id, authorDTO);
     }
 

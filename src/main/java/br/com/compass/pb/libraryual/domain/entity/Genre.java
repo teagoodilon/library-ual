@@ -3,7 +3,6 @@ package br.com.compass.pb.libraryual.domain.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Entity

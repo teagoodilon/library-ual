@@ -4,6 +4,7 @@ import br.com.compass.pb.libraryual.domain.dto.BookDTO;
 import br.com.compass.pb.libraryual.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +25,12 @@ public class BookController {
         return bookService.findById(id);
     }
     @PostMapping("/")
-    public BookDTO insert(@RequestBody BookDTO bookDTO) {
+    public BookDTO insert(@Valid @RequestBody BookDTO bookDTO) {
         return bookService.insert(bookDTO);
     }
 
     @PutMapping("/{id}")
-    public BookDTO update(@PathVariable("id") Long id, @RequestBody BookDTO bookDTO) {
+    public BookDTO update(@PathVariable("id") Long id,@Valid @RequestBody BookDTO bookDTO) {
         return bookService.update(id, bookDTO);
     }
 

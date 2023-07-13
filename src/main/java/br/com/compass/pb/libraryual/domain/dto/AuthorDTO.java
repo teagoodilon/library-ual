@@ -8,9 +8,10 @@ import org.springframework.beans.BeanUtils;
 @Data
 public class AuthorDTO {
     private Long id;
+    @NotBlank
     private String name;
 
-    public AuthorDTO(Long id, @NotBlank String name) {
+    public AuthorDTO(Long id, String name) {
         this.id = id;
         this.name = name;
     }

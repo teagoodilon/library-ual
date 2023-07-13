@@ -3,6 +3,7 @@ package br.com.compass.pb.libraryual.controller;
 
 import br.com.compass.pb.libraryual.domain.dto.GenreDTO;
 import br.com.compass.pb.libraryual.service.GenreService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class GenreController {
     }
 
     @PostMapping("/")
-    public GenreDTO insert(@RequestBody GenreDTO object){
+    public GenreDTO insert(@Valid @RequestBody GenreDTO object){
         return genreService.insert(object);
     }
 
