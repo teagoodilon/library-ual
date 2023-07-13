@@ -11,9 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,15 +48,25 @@ public class BookServiceTest {
         verify(bookRepository, times(1)).findById(bookId);
     }
 
+    /*@Test
+    public void testFindById_NotFound() {
+        Long bookId = 1L;
+        when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
+
+        assertThrows(nomedaexceçao.class, () -> {
+            bookService.findById(bookId);
+        });
+
+        verify(bookRepository, times(1)).findById(bookId);
+    }*/
+
     @Test
     public void testFindById_InvalidInput() {
-        // Arrange
+        //modificar caso exista exceção
         Long invalidId = null;
 
-        // Act
         BookDTO result = bookService.findById(invalidId);
 
-        // Assert
         assertNull(result);
         verify(bookRepository, never()).findById(anyLong());
     }
@@ -90,42 +100,95 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testInsert_InvalidInput() {
-        //nao funciona ainda
+    public void testInsert_NullInput() {
+        //nao passa no teste  ainda, precisa da exceção
         BookDTO bookDTO = createBookDTO();
         bookDTO.setTitle(null);
-        // Mudar para a exceçao que criarem depois
+
         assertThrows(IllegalArgumentException.class, () -> bookService.insert(bookDTO));
         verify(bookRepository, never()).saveAndFlush(any(Book.class));
+    }
+
+    @Test
+    public void testInsert_InvalidInput() {
+        //nao passa no teste  ainda, precisa da exceção
+        BookDTO bookDTO = createBookDTO();
+        bookDTO.setTitle(null);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            bookService.insert(bookDTO);
+        });
+
+        Mockito.verifyNoInteractions(bookRepository);
     }
 
 
 
     @Test
     public void testUpdate() {
-        Long bookId = 1L;
         BookDTO bookDTO = createBookDTO();
         Book book = createBook();
-        when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
+        when(bookRepository.findById(bookDTO.getId())).thenReturn(Optional.of(book));
         when(bookRepository.saveAndFlush(any(Book.class))).thenReturn(book);
 
-        BookDTO result = bookService.update(bookId, bookDTO);
+        BookDTO result = bookService.update(bookDTO.getId(), bookDTO);
 
         assertEquals(book.getId(), result.getId());
         assertEquals(book.getTitle(), result.getTitle());
 
-        verify(bookRepository, times(1)).findById(bookId);
+        verify(bookRepository, times(1)).findById(bookDTO.getId());
         verify(bookRepository, times(1)).saveAndFlush(any(Book.class));
     }
 
+/*    @Test
+    public void testUpdate_InvalidId() {
+        Long invalidId = 80L;
+        BookDTO bookDTO = createBookDTO();
+        when(bookRepository.findById(invalidId)).thenReturn(Optional.empty());
+
+        assertThrows(nomedamesmaexcessaoqueinsert.class, () -> {
+            bookService.update(invalidId, bookDTO);
+        });
+
+        verify(bookRepository, times(1)).findById(invalidId);
+        verify(bookRepository, never()).saveAndFlush(any(Book.class));
+    }*/
+
+
     @Test
-    public void testDelete() {
+    public void testDel() {
+        //ele passa nesse teste mas nao deveria kaka, pode excluir esse teste depois
         Long bookId = 1L;
 
         bookService.delete(bookId);
 
         verify(bookRepository, times(1)).deleteById(bookId);
     }
+
+    @Test
+    public void testDelete() {
+        //teste delete valido
+        Long bookId = 1L;
+
+        Book book = createBook();
+        when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
+
+        bookService.delete(bookId);
+
+        verify(bookRepository, times(1)).deleteById(bookId);
+    }
+
+    /*@Test
+    public void testDelete_InvalidId() {
+        Long invalidId = 80L;
+
+        assertThrows(mesmaexceção.class, () -> {
+            bookService.delete(invalidId);
+        });
+
+        verify(bookRepository, times(1)).deleteById(invalidId);
+    }*/
+
 
     private Book createBook() {
         Author author = new Author();
