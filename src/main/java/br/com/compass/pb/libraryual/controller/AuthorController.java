@@ -30,9 +30,6 @@ public class AuthorController {
 
     @PostMapping("/")
     public AuthorDTO insert(@Valid @RequestBody AuthorDTO authorDTO){
-        if (StringUtils.isBlank(authorDTO.getName())) {
-            throw new BlankFieldException("name");
-        }
         return authorService.insert(authorDTO);
     }
 
