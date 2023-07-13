@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.PublishingCompanyDTO;
 import br.com.compass.pb.libraryual.domain.entity.PublishingCompany;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.PublishingCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,12 @@ public class PublishingCompanyService {
 
     public List<PublishingCompanyDTO> findAll() {
         List<PublishingCompany> publishingCompanies = publishingCompanyRepository.findAll();
-        return publishingCompanies.stream()
-                .map(PublishingCompanyDTO::convertToDto)
-                .collect(Collectors.toList());
+        if (!publishingCompanies.isEmpty()) {
+            return publishingCompanies.stream()
+                    .map(PublishingCompanyDTO::convertToDto)
+                    .collect(Collectors.toList());
+        }
+        throw new ResourceNotFoundException("Publishing Companies", "There are no records to display");
     }
 
     public PublishingCompanyDTO findById(Long id) {
@@ -29,7 +33,7 @@ public class PublishingCompanyService {
             PublishingCompany publishingCompany = publishingCompanyOptional.get();
             return PublishingCompanyDTO.convertToDto(publishingCompany);
         }
-        return null;
+        throw new ResourceNotFoundException("Publishing Companies", "Publishing Companies not found with ID: " + id);
     }
 
     public PublishingCompanyDTO insert(PublishingCompanyDTO publishingCompanyDTO) {
@@ -48,7 +52,7 @@ public class PublishingCompanyService {
             PublishingCompany updatedPublishingCompany = publishingCompanyRepository.saveAndFlush(publishingCompany);
             return new PublishingCompanyDTO(updatedPublishingCompany);
         }
-        return null;
+        throw new ResourceNotFoundException("Publishing Companies", "Publishing Companies not found with ID: " + id);
     }
 
     public void delete(Long id) {

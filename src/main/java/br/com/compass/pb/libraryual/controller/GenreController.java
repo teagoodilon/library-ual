@@ -24,11 +24,7 @@ public class GenreController {
     @GetMapping("/{id}")
     public ResponseEntity<GenreDTO> findById(@PathVariable Long id) {
         GenreDTO genreDTO = genreService.findById(id);
-        if (genreDTO != null) {
-            return ResponseEntity.ok(genreDTO);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(genreDTO);
     }
 
     @PostMapping("/")

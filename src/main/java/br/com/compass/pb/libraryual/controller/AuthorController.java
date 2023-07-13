@@ -1,7 +1,9 @@
 package br.com.compass.pb.libraryual.controller;
 
 import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
+import br.com.compass.pb.libraryual.exception.BlankFieldException;
 import br.com.compass.pb.libraryual.service.AuthorService;
+import io.micrometer.common.util.StringUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +25,14 @@ public class AuthorController {
     @GetMapping("/{id}")
     public ResponseEntity<AuthorDTO> findById(@PathVariable Long id) {
         AuthorDTO authorDTO = authorService.findById(id);
-        if (authorDTO != null) {
-            return ResponseEntity.ok(authorDTO);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(authorDTO);
     }
 
     @PostMapping("/")
     public AuthorDTO insert(@Valid @RequestBody AuthorDTO authorDTO){
+        if (StringUtils.isBlank(authorDTO.getName())) {
+            throw new BlankFieldException("name");
+        }
         return authorService.insert(authorDTO);
     }
 

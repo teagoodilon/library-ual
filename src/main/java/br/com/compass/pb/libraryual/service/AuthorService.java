@@ -2,7 +2,10 @@ package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
 import br.com.compass.pb.libraryual.domain.entity.Author;
+import br.com.compass.pb.libraryual.exception.BlankFieldException;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.AuthorRepository;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +22,12 @@ public class AuthorService {
 
     public List<AuthorDTO> findAll() {
         List<Author> authors = authorRepository.findAll();
+        if (!authors.isEmpty()){
         return authors.stream()
                 .map(AuthorDTO::convertToDto)
                 .collect(Collectors.toList());
+        }
+        throw new ResourceNotFoundException("Author", "There are no records to display");
     }
 
     public AuthorDTO findById(Long id) {
@@ -30,7 +36,7 @@ public class AuthorService {
             Author author = authorOptional.get();
             return AuthorDTO.convertToDto(author);
         }
-        return null;
+        throw new ResourceNotFoundException("Author", "Author not found with ID: " + id);
     }
 
     public AuthorDTO insert(AuthorDTO authorDTO) {
@@ -49,7 +55,7 @@ public class AuthorService {
             Author updatedAuthor = authorRepository.saveAndFlush(author);
             return new AuthorDTO(updatedAuthor);
         }
-        return null;
+        throw new ResourceNotFoundException("Author", "Author not found with ID: " + id);
     }
 
     public void delete(Long id) {

@@ -9,7 +9,7 @@ import org.springframework.beans.BeanUtils;
 public class GenreDTO {
     private Long id;
 
-    @NotBlank(message = "ORAZIO")
+    @NotBlank
     private String name;
 
     public GenreDTO(Long id, String name){

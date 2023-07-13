@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.GenreDTO;
 import br.com.compass.pb.libraryual.domain.entity.Genre;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,12 @@ public class GenreService {
 
     public List<GenreDTO> findAll(){
         List<Genre> genres = genreRepository.findAll();
-        return genres.stream()
-                .map(GenreDTO::convertToDto)
-                .collect(Collectors.toList());
+        if (!genres.isEmpty()) {
+            return genres.stream()
+                    .map(GenreDTO::convertToDto)
+                    .collect(Collectors.toList());
+        }
+        throw new ResourceNotFoundException("Genre", "There are no records to display");
     }
 
     public GenreDTO findById(Long id) {
@@ -30,7 +34,7 @@ public class GenreService {
             Genre genres = genreOptional.get();
             return GenreDTO.convertToDto(genres);
         }
-        return null;
+        throw new ResourceNotFoundException("Genre", "Genre not found with ID: " + id);
     }
 
     public GenreDTO insert(GenreDTO genreDTO){
@@ -49,7 +53,7 @@ public class GenreService {
             Genre updatedGenre = genreRepository.saveAndFlush(genre);
             return new GenreDTO(updatedGenre);
         }
-        return null;
+        throw new ResourceNotFoundException("Genre", "Genre not found with ID: " + id);
     }
 
     public void delete(Long id){

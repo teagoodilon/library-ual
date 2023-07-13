@@ -12,7 +12,7 @@ public class PublishingCompanyDTO {
    @NotBlank
    private String name;
 
-   public PublishingCompanyDTO(Long id, @NotBlank String name) {
+   public PublishingCompanyDTO(Long id, String name) {
        this.id = id;
        this.name = name;
    }
