@@ -5,9 +5,13 @@ import br.com.compass.pb.libraryual.domain.dto.GenreDTO;
 import br.com.compass.pb.libraryual.service.GenreService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/genre")
@@ -42,9 +46,11 @@ public class GenreController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") Long id){
         genreService.delete(id);
-        return ResponseEntity.ok().build();
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

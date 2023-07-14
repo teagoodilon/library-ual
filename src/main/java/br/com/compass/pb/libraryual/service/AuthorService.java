@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
 import br.com.compass.pb.libraryual.domain.entity.Author;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,14 +15,20 @@ import java.util.stream.Collectors;
 @Service
 public class AuthorService {
 
+    private static final String AUTHOR = "Author";
+    private static final String AUTHOR_NOT_FOUND = "Author not found with ID: ";
+
     @Autowired
     private AuthorRepository authorRepository;
 
     public List<AuthorDTO> findAll() {
         List<Author> authors = authorRepository.findAll();
-        return authors.stream()
-                .map(AuthorDTO::convertToDto)
-                .collect(Collectors.toList());
+        if (!authors.isEmpty()){
+            return authors.stream()
+                    .map(AuthorDTO::convertToDto)
+                    .collect(Collectors.toList());
+        }
+        throw new ResourceNotFoundException(AUTHOR, "There are no records to display");
     }
 
     public AuthorDTO findById(Long id) {
@@ -30,7 +37,7 @@ public class AuthorService {
             Author author = authorOptional.get();
             return AuthorDTO.convertToDto(author);
         }
-        return null;
+        throw new ResourceNotFoundException(AUTHOR, AUTHOR_NOT_FOUND + id);
     }
 
     public AuthorDTO insert(AuthorDTO authorDTO) {
@@ -49,11 +56,15 @@ public class AuthorService {
             Author updatedAuthor = authorRepository.saveAndFlush(author);
             return new AuthorDTO(updatedAuthor);
         }
-        return null;
+        throw new ResourceNotFoundException(AUTHOR, AUTHOR_NOT_FOUND + id);
     }
 
     public void delete(Long id) {
-        authorRepository.deleteById(id);
+        Optional<Author> optionalAuthor = authorRepository.findById(id);
+        if (optionalAuthor.isPresent()) {
+            authorRepository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException(AUTHOR, AUTHOR_NOT_FOUND + id);
+        }
     }
-
 }

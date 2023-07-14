@@ -4,10 +4,13 @@ import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
 import br.com.compass.pb.libraryual.service.AuthorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/author")
@@ -23,11 +26,7 @@ public class AuthorController {
     @GetMapping("/{id}")
     public ResponseEntity<AuthorDTO> findById(@PathVariable Long id) {
         AuthorDTO authorDTO = authorService.findById(id);
-        if (authorDTO != null) {
-            return ResponseEntity.ok(authorDTO);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(authorDTO);
     }
 
     @PostMapping("/")
@@ -41,9 +40,11 @@ public class AuthorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") Long id){
         authorService.delete(id);
-        return ResponseEntity.ok().build();
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 

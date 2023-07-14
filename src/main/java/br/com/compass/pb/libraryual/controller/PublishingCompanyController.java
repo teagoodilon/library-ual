@@ -4,10 +4,13 @@ import br.com.compass.pb.libraryual.domain.dto.PublishingCompanyDTO;
 import br.com.compass.pb.libraryual.service.PublishingCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/publishingCompany")
@@ -42,8 +45,10 @@ public class PublishingCompanyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") Long id) {
         publishingCompanyService.delete(id);
-        return ResponseEntity.ok().build();
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

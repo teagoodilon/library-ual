@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.PublishingCompanyDTO;
 import br.com.compass.pb.libraryual.domain.entity.PublishingCompany;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.PublishingCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,19 @@ import java.util.stream.Collectors;
 @Service
 public class PublishingCompanyService {
 
+    private static final String PUBLISHINGCOMPANY = "Publishing Company";
+    private static final String PUBLISHINGCOMPANY_NOT_FOUND = "Publishing Company not found with ID: ";
     @Autowired
     private PublishingCompanyRepository publishingCompanyRepository;
 
     public List<PublishingCompanyDTO> findAll() {
         List<PublishingCompany> publishingCompanies = publishingCompanyRepository.findAll();
-        return publishingCompanies.stream()
-                .map(PublishingCompanyDTO::convertToDto)
-                .collect(Collectors.toList());
+        if(!publishingCompanies.isEmpty()) {
+            return publishingCompanies.stream()
+                    .map(PublishingCompanyDTO::convertToDto)
+                    .collect(Collectors.toList());
+        }
+        throw new ResourceNotFoundException(PUBLISHINGCOMPANY, "There are no records to display");
     }
 
     public PublishingCompanyDTO findById(Long id) {
@@ -29,7 +35,7 @@ public class PublishingCompanyService {
             PublishingCompany publishingCompany = publishingCompanyOptional.get();
             return PublishingCompanyDTO.convertToDto(publishingCompany);
         }
-        return null;
+        throw new ResourceNotFoundException(PUBLISHINGCOMPANY, PUBLISHINGCOMPANY_NOT_FOUND + id);
     }
 
     public PublishingCompanyDTO insert(PublishingCompanyDTO publishingCompanyDTO) {
@@ -48,10 +54,16 @@ public class PublishingCompanyService {
             PublishingCompany updatedPublishingCompany = publishingCompanyRepository.saveAndFlush(publishingCompany);
             return new PublishingCompanyDTO(updatedPublishingCompany);
         }
-        return null;
+        throw new ResourceNotFoundException(PUBLISHINGCOMPANY, PUBLISHINGCOMPANY_NOT_FOUND + id);
     }
 
     public void delete(Long id) {
-        publishingCompanyRepository.deleteById(id);
+        Optional<PublishingCompany> optionalPublishingCompany = publishingCompanyRepository.findById(id);
+        if(optionalPublishingCompany.isPresent()){
+            publishingCompanyRepository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException(PUBLISHINGCOMPANY, PUBLISHINGCOMPANY_NOT_FOUND + id);
+        }
+
     }
 }
