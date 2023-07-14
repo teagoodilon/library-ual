@@ -42,10 +42,10 @@ public class BookService {
     }
 
     public BookDTO insert(BookDTO bookDTO) {
-        Book book = bookDTO.toEntity();
-        book.setCreatedAt(LocalDateTime.now());
-        Book createdBook = bookRepository.saveAndFlush(book);
-        return new BookDTO(createdBook);
+            Book book = bookDTO.toEntity();
+            book.setCreatedAt(LocalDateTime.now());
+            Book createdBook = bookRepository.saveAndFlush(book);
+            return new BookDTO(createdBook);
     }
 
     public BookDTO update(Long id, BookDTO bookDTO) {

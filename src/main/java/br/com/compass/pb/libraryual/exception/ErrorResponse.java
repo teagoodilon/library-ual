@@ -1,39 +1,17 @@
 package br.com.compass.pb.libraryual.exception;
+import lombok.Data;
 
-import java.util.List;
-
+@Data
 public class ErrorResponse {
     private int status;
     private String error;
-    private List<String> messages;
+    private String message;
 
-    public ErrorResponse(int status, String error, List<String> messages) {
+    public ErrorResponse(int status, String error, String message) {
         this.status = status;
         this.error = error;
-        this.messages = messages;
+        this.message = message;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public List<String> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<String> messages) {
-        this.messages = messages;
-    }
 }
+

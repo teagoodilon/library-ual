@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import java.time.LocalDateTime;
 
 @Data
+@ValidAssociatedEntities
 public class BookDTO {
 
     private Long id;

@@ -1,6 +1,5 @@
 package br.com.compass.pb.libraryual.exception;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,6 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestControllerAdvice
@@ -40,21 +40,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             errorMessages.add(errorMessage);
         }
 
-        status = HttpStatus.BAD_REQUEST;
-        ErrorResponse errorResponse = new ErrorResponse(status.value(), status.toString(), errorMessages);
-        return ResponseEntity.status(status).body(errorResponse);
+        if (!errorMessages.isEmpty()) {
+            status = HttpStatus.BAD_REQUEST;
+            ErrorResponse400 errorResponse400 = new ErrorResponse400(status.value(), status.toString(), errorMessages);
+            return ResponseEntity.status(status).body(errorResponse400);
+        }
+        ErrorResponse400 errorResponse400 = new ErrorResponse400(status.value(), status.toString(), Collections.singletonList("Validation failed"));
+        return ResponseEntity.status(status).body(errorResponse400);
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorReponseConstraint> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        String error = status.getReasonPhrase();
-        String message = "An internal server error occurred.";
-        String detail = ex.getMessage();
-        String path = "/api/book/";
-
-       ErrorReponseConstraint errorResponse = new ErrorReponseConstraint(status.value(), error, message, detail, path);
+    /*@ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        String resourceName = ex.getResourceName();
+        String message = ex.getMessage();
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ErrorResponse errorResponse = new ErrorResponse(status.value(), status.getReasonPhrase(), resourceName + " not found");
         return ResponseEntity.status(status).body(errorResponse);
-    }
+    }*/
 
 }

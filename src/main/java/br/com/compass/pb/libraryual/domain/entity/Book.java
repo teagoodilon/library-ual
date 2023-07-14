@@ -1,5 +1,6 @@
 package br.com.compass.pb.libraryual.domain.entity;
 
+import br.com.compass.pb.libraryual.domain.dto.ValidAssociatedEntities;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "lu_book")
 @Data
+@ValidAssociatedEntities
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
