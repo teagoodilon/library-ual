@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual;
 
 import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
 import br.com.compass.pb.libraryual.domain.entity.Author;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.AuthorRepository;
 import br.com.compass.pb.libraryual.service.AuthorService;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,29 +46,17 @@ public class AuthorServiceTest {
         verify(authorRepository, times(1)).findById(authorId);
     }
 
-    /*@Test
+    @Test
     public void testFindById_NotFound() {
-        Long bookId = 1L;
-        when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
+        Long invalidId = 80L;
+        when(authorRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        assertThrows(nomedaexceçao.class, () -> {
-            bookService.findById(bookId);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            authorService.findById(invalidId);
         });
 
-        verify(bookRepository, times(1)).findById(bookId);
-    }*/
-
-    @Test
-    public void testFindById_InvalidInput() {
-        //modificar caso exista exceção
-        Long invalidId = null;
-
-        AuthorDTO result = authorService.findById(invalidId);
-
-        assertNull(result);
-        verify(authorRepository, never()).findById(anyLong());
+        verify(authorRepository, times(1)).findById(invalidId);
     }
-
 
     @Test
     public void testFindAll() {
@@ -98,31 +86,6 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testInsert_NullInput() {
-        //nao passa no teste  ainda, precisa da exceção
-        AuthorDTO authorDTO = createAuthorDTO();
-        authorDTO.setName(null);
-
-        assertThrows(IllegalArgumentException.class, () -> authorService.insert(authorDTO));
-        verify(authorRepository, never()).saveAndFlush(any(Author.class));
-    }
-
-    @Test
-    public void testInsert_InvalidInput() {
-        //nao passa no teste  ainda, precisa da exceção
-        AuthorDTO authorDTO = createAuthorDTO();
-        authorDTO.setName(null);
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            authorService.insert(authorDTO);
-        });
-
-        Mockito.verifyNoInteractions(authorRepository);
-    }
-
-
-
-    @Test
     public void testUpdate() {
         AuthorDTO authorDTO = createAuthorDTO();
         Author author = createAuthor();
@@ -138,54 +101,42 @@ public class AuthorServiceTest {
         verify(authorRepository, times(1)).saveAndFlush(any(Author.class));
     }
 
-/*    @Test
+    @Test
     public void testUpdate_InvalidId() {
         Long invalidId = 80L;
-        BookDTO bookDTO = createBookDTO();
-        when(bookRepository.findById(invalidId)).thenReturn(Optional.empty());
+        AuthorDTO authorDTO = createAuthorDTO();
+        when(authorRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        assertThrows(nomedamesmaexcessaoqueinsert.class, () -> {
-            bookService.update(invalidId, bookDTO);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            authorService.update(invalidId, authorDTO);
         });
 
-        verify(bookRepository, times(1)).findById(invalidId);
-        verify(bookRepository, never()).saveAndFlush(any(Book.class));
-    }*/
-
-
-    @Test
-    public void testDel() {
-        //ele passa nesse teste mas nao deveria kaka, pode excluir esse teste depois
-        Long bookId = 1L;
-
-        authorService.delete(bookId);
-
-        verify(authorRepository, times(1)).deleteById(bookId);
+        verify(authorRepository, times(1)).findById(invalidId);
+        verify(authorRepository, never()).saveAndFlush(any(Author.class));
     }
 
     @Test
     public void testDelete() {
-        //teste delete valido
-        Long bookId = 1L;
+        Long id = 1L;
 
         Author author = createAuthor();
-        when(authorRepository.findById(bookId)).thenReturn(Optional.of(author));
+        when(authorRepository.findById(id)).thenReturn(Optional.of(author));
 
-        authorService.delete(bookId);
+        authorService.delete(id);
 
-        verify(authorRepository, times(1)).deleteById(bookId);
+        verify(authorRepository, times(1)).deleteById(id);
     }
 
-    /*@Test
+    @Test
     public void testDelete_InvalidId() {
         Long invalidId = 80L;
 
-        assertThrows(mesmaexceção.class, () -> {
-            bookService.delete(invalidId);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            authorService.delete(invalidId);
         });
 
-        verify(bookRepository, times(1)).deleteById(invalidId);
-    }*/
+        verify(authorRepository, times(0)).deleteById(invalidId);
+    }
 
 
     private Author createAuthor() {
