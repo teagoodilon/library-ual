@@ -1,6 +1,8 @@
 package br.com.compass.pb.libraryual;
 
 import br.com.compass.pb.libraryual.controller.AuthorController;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,20 @@ class AuthorControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    //@BeforeEach
+    @Test
+    @DisplayName("Should insert author")
+    void shouldInsertAuthor() throws Exception {
+        String requestBody = "{\"name\": \"Jane Austen\"}";
+
+        mockMvc.perform(post("/api/author/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name").value("Jane Austen"));
+    }
+
     @Test
     @DisplayName("Should return all authors")
     void shouldReturnAllAuthors() throws Exception {
@@ -33,20 +49,6 @@ class AuthorControllerIntegrationTest {
     @DisplayName("Should return author by id")
     void shouldReturnAuthorById() throws Exception {
         mockMvc.perform(get("/api/author/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("Jane Austen"));
-    }
-
-    @Test
-    @DisplayName("Should insert author")
-    void shouldInsertAuthor() throws Exception {
-        String requestBody = "{\"id\": 1, \"name\": \"Jane Austen\"}";
-
-        mockMvc.perform(post("/api/author/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))
