@@ -20,7 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class AuthorServiceTest {
+class AuthorServiceTest {
 
     @Mock
     private AuthorRepository authorRepository;
@@ -34,7 +34,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testFindById() {
+    void testFindById() {
         Long authorId = 1L;
         Author author = createAuthor();
         when(authorRepository.findById(authorId)).thenReturn(Optional.of(author));
@@ -48,7 +48,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testFindById_NotFound() {
+    void testFindById_NotFound() {
         Long invalidId = 80L;
         when(authorRepository.findById(invalidId)).thenReturn(Optional.empty());
 
@@ -60,7 +60,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testFindAll() {
+    void testFindAll() {
         List<Author> authors = new ArrayList<>();
         authors.add(createAuthor());
         when(authorRepository.findAll()).thenReturn(authors);
@@ -73,7 +73,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testFindAllWhenEmpty() {
+    void testFindAllWhenEmpty() {
         when(authorRepository.findAll()).thenReturn(Collections.emptyList());
 
         assertThrows(ResourceNotFoundException.class, () -> {
@@ -85,7 +85,7 @@ public class AuthorServiceTest {
 
 
     @Test
-    public void testInsert() {
+    void testInsert() {
         AuthorDTO authorDTO = createAuthorDTO();
         Author author = createAuthor();
         when(authorRepository.saveAndFlush(any(Author.class))).thenReturn(author);
@@ -99,7 +99,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         AuthorDTO authorDTO = createAuthorDTO();
         Author author = createAuthor();
         when(authorRepository.findById(authorDTO.getId())).thenReturn(Optional.of(author));
@@ -115,7 +115,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testUpdate_InvalidId() {
+    void testUpdate_InvalidId() {
         Long invalidId = 80L;
         AuthorDTO authorDTO = createAuthorDTO();
         when(authorRepository.findById(invalidId)).thenReturn(Optional.empty());
@@ -129,7 +129,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         Long id = 1L;
 
         Author author = createAuthor();
@@ -141,7 +141,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    public void testDelete_InvalidId() {
+    void testDelete_InvalidId() {
         Long invalidId = 80L;
 
         assertThrows(ResourceNotFoundException.class, () -> {

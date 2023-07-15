@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class BookServiceTest {
+class BookServiceTest {
 
     @Mock
     private BookRepository bookRepository;
@@ -35,7 +35,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testFindById() {
+    void testFindById() {
         Long bookId = 1L;
         Book book = createBook();
         when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
@@ -61,7 +61,7 @@ public class BookServiceTest {
     }*/
 
     @Test
-    public void testFindById_InvalidInput() {
+    void testFindById_InvalidInput() {
         //modificar caso exista exceção
         Long invalidId = null;
 
@@ -73,7 +73,7 @@ public class BookServiceTest {
 
 
     @Test
-    public void testFindAll() {
+    void testFindAll() {
         List<Book> books = new ArrayList<>();
         books.add(createBook());
         when(bookRepository.findAll()).thenReturn(books);
@@ -86,7 +86,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testInsert() {
+    void testInsert() {
         BookDTO bookDTO = createBookDTO();
         Book book = createBook();
         when(bookRepository.saveAndFlush(any(Book.class))).thenReturn(book);
@@ -100,7 +100,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testInsert_NullInput() {
+    void testInsert_NullInput() {
         //nao passa no teste  ainda, precisa da exceção
         BookDTO bookDTO = createBookDTO();
         bookDTO.setTitle(null);
@@ -110,7 +110,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testInsert_InvalidInput() {
+    void testInsert_InvalidInput() {
         //nao passa no teste  ainda, precisa da exceção
         BookDTO bookDTO = createBookDTO();
         bookDTO.setTitle(null);
@@ -125,7 +125,7 @@ public class BookServiceTest {
 
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         BookDTO bookDTO = createBookDTO();
         Book book = createBook();
         when(bookRepository.findById(bookDTO.getId())).thenReturn(Optional.of(book));
@@ -156,7 +156,7 @@ public class BookServiceTest {
 
 
     @Test
-    public void testDel() {
+    void testDel() {
         //ele passa nesse teste mas nao deveria kaka, pode excluir esse teste depois
         Long bookId = 1L;
 
@@ -166,7 +166,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testDelete() {
+   void testDelete() {
         //teste delete valido
         Long bookId = 1L;
 

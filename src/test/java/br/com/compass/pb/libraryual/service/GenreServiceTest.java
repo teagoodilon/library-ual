@@ -20,7 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class GenreServiceTest {
+class GenreServiceTest {
 
     @Mock
     private GenreRepository genreRepository;
@@ -34,7 +34,7 @@ public class GenreServiceTest {
     }
 
     @Test
-    public void testFindById() {
+    void testFindById() {
         Long id = 1L;
         Genre genre = createGenre();
         when(genreRepository.findById(id)).thenReturn(Optional.of(genre));
@@ -48,7 +48,7 @@ public class GenreServiceTest {
     }
 
     @Test
-    public void testFindById_NotFound() {
+    void testFindById_NotFound() {
         Long invalidId = 80L;
         when(genreRepository.findById(invalidId)).thenReturn(Optional.empty());
 
@@ -60,7 +60,7 @@ public class GenreServiceTest {
     }
 
     @Test
-    public void testFindAll() {
+    void testFindAll() {
         List<Genre> genres = new ArrayList<>();
         genres.add(createGenre());
         when(genreRepository.findAll()).thenReturn(genres);
@@ -73,7 +73,7 @@ public class GenreServiceTest {
     }
 
     @Test
-    public void testFindAllWhenEmpty() {
+    void testFindAllWhenEmpty() {
         when(genreRepository.findAll()).thenReturn(Collections.emptyList());
 
         assertThrows(ResourceNotFoundException.class, () -> {
@@ -84,7 +84,7 @@ public class GenreServiceTest {
     }
 
     @Test
-    public void testInsert() {
+    void testInsert() {
         GenreDTO genreDTO = createGenreDTO();
         Genre genre = createGenre();
         when(genreRepository.saveAndFlush(any(Genre.class))).thenReturn(genre);
@@ -98,7 +98,7 @@ public class GenreServiceTest {
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         GenreDTO genreDTO = createGenreDTO();
         Genre genre = createGenre();
         when(genreRepository.findById(genreDTO.getId())).thenReturn(Optional.of(genre));
@@ -114,7 +114,7 @@ public class GenreServiceTest {
     }
 
     @Test
-    public void testUpdate_InvalidId() {
+    void testUpdate_InvalidId() {
         Long invalidId = 80L;
         GenreDTO genreDTO = createGenreDTO();
         when(genreRepository.findById(invalidId)).thenReturn(Optional.empty());
@@ -128,7 +128,7 @@ public class GenreServiceTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         Long id = 1L;
 
         Genre genre = createGenre();
@@ -140,7 +140,7 @@ public class GenreServiceTest {
     }
 
     @Test
-    public void testDelete_InvalidId() {
+    void testDelete_InvalidId() {
         Long invalidId = 80L;
 
         assertThrows(ResourceNotFoundException.class, () -> {

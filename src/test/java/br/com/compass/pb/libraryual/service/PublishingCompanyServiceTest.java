@@ -20,7 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class PublishingCompanyServiceTest {
+class PublishingCompanyServiceTest {
 
     @Mock
     private PublishingCompanyRepository publishingCompanyRepository;
@@ -34,7 +34,7 @@ public class PublishingCompanyServiceTest {
     }
 
     @Test
-    public void testFindById() {
+    void testFindById() {
         Long id = 1L;
         PublishingCompany publishingCompany = createPublishingCompany();
         when(publishingCompanyRepository.findById(id)).thenReturn(Optional.of(publishingCompany));
@@ -48,7 +48,7 @@ public class PublishingCompanyServiceTest {
     }
 
     @Test
-    public void testFindById_NotFound() {
+    void testFindById_NotFound() {
         Long invalidId = 80L;
         when(publishingCompanyRepository.findById(invalidId)).thenReturn(Optional.empty());
 
@@ -60,7 +60,7 @@ public class PublishingCompanyServiceTest {
     }
 
     @Test
-    public void testFindAll() {
+    void testFindAll() {
         List<PublishingCompany> publishingCompanies = new ArrayList<>();
         publishingCompanies.add(createPublishingCompany());
         when(publishingCompanyRepository.findAll()).thenReturn(publishingCompanies);
@@ -73,7 +73,7 @@ public class PublishingCompanyServiceTest {
     }
 
     @Test
-    public void testFindAllWhenEmpty() {
+    void testFindAllWhenEmpty() {
         when(publishingCompanyRepository.findAll()).thenReturn(Collections.emptyList());
 
         assertThrows(ResourceNotFoundException.class, () -> {
@@ -84,7 +84,7 @@ public class PublishingCompanyServiceTest {
     }
 
     @Test
-    public void testInsert() {
+    void testInsert() {
         PublishingCompanyDTO publishingCompanyDTO = createPublishingCompanyDTO();
         PublishingCompany publishingCompany = createPublishingCompany();
         when(publishingCompanyRepository.saveAndFlush(any(PublishingCompany.class))).thenReturn(publishingCompany);
@@ -98,7 +98,7 @@ public class PublishingCompanyServiceTest {
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         PublishingCompanyDTO publishingCompanyDTO = createPublishingCompanyDTO();
         PublishingCompany publishingCompany = createPublishingCompany();
         when(publishingCompanyRepository.findById(publishingCompanyDTO.getId())).thenReturn(Optional.of(publishingCompany));
@@ -114,7 +114,7 @@ public class PublishingCompanyServiceTest {
     }
 
     @Test
-    public void testUpdate_InvalidId() {
+    void testUpdate_InvalidId() {
         Long invalidId = 80L;
         PublishingCompanyDTO publishingCompanyDTO = createPublishingCompanyDTO();
         when(publishingCompanyRepository.findById(invalidId)).thenReturn(Optional.empty());
@@ -128,7 +128,7 @@ public class PublishingCompanyServiceTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         Long id = 1L;
 
         PublishingCompany publishingCompany = createPublishingCompany();
@@ -140,7 +140,7 @@ public class PublishingCompanyServiceTest {
     }
 
     @Test
-    public void testDelete_InvalidId() {
+    void testDelete_InvalidId() {
         Long invalidId = 80L;
 
         assertThrows(ResourceNotFoundException.class, () -> {
@@ -162,8 +162,7 @@ public class PublishingCompanyServiceTest {
     private PublishingCompanyDTO createPublishingCompanyDTO() {
         Long id= 1L;
         String name = "publishingCompany";
-        PublishingCompanyDTO publishingCompanyDTO = new PublishingCompanyDTO(id, name);
 
-        return publishingCompanyDTO;
+        return new PublishingCompanyDTO(id, name);
     }
 }
