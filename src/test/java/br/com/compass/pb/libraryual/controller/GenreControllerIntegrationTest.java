@@ -35,6 +35,17 @@ class GenreControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("Should return 400 when invalid request body")
+    void shouldReturn400WhenInvalidRequestBody() throws Exception {
+        String requestBody = "{\"name\": \"\"}"; // Invalid name
+
+        mockMvc.perform(post("/api/genre/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("Should return all genres")
     void shouldReturnAllGenres() throws Exception {
         mockMvc.perform(get("/api/genre/"))
@@ -52,6 +63,13 @@ class GenreControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Jane Austen"));
+    }
+
+    @Test
+    @DisplayName("Should return 404 when genre not found")
+    void shouldReturn404WhenGenreNotFound() throws Exception {
+        mockMvc.perform(get("/api/genre/100"))
+                .andExpect(status().isNotFound());
     }
 
     @Test

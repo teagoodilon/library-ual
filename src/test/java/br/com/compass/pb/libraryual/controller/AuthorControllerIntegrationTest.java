@@ -35,6 +35,17 @@ class AuthorControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("Should return 400 when invalid request body")
+    void shouldReturn400WhenInvalidRequestBody() throws Exception {
+        String requestBody = "{\"name\": \"\"}"; // Invalid name
+
+        mockMvc.perform(post("/api/author/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("Should return all authors")
     void shouldReturnAllAuthors() throws Exception {
         mockMvc.perform(get("/api/author/"))
@@ -52,6 +63,13 @@ class AuthorControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Jane Austen"));
+    }
+
+    @Test
+    @DisplayName("Should return 404 when author not found")
+    void shouldReturn404WhenAuthorNotFound() throws Exception {
+        mockMvc.perform(get("/api/author/100"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
