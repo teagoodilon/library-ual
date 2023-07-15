@@ -1,4 +1,4 @@
-package br.com.compass.pb.libraryual;
+package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.BookDTO;
 import br.com.compass.pb.libraryual.domain.entity.Author;

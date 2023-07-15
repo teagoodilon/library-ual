@@ -1,4 +1,4 @@
-package br.com.compass.pb.libraryual;
+package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.PublishingCompanyDTO;
 import br.com.compass.pb.libraryual.domain.entity.PublishingCompany;
@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,17 @@ public class PublishingCompanyServiceTest {
         List<PublishingCompanyDTO> result = publishingCompanyService.findAll();
 
         assertEquals(1, result.size());
+
+        verify(publishingCompanyRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void testFindAllWhenEmpty() {
+        when(publishingCompanyRepository.findAll()).thenReturn(Collections.emptyList());
+
+        assertThrows(ResourceNotFoundException.class, () -> {
+            publishingCompanyService.findAll();
+        });
 
         verify(publishingCompanyRepository, times(1)).findAll();
     }

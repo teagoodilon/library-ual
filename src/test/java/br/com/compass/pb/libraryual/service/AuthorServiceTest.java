@@ -1,4 +1,4 @@
-package br.com.compass.pb.libraryual;
+package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
 import br.com.compass.pb.libraryual.domain.entity.Author;
@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,6 +71,18 @@ public class AuthorServiceTest {
 
         verify(authorRepository, times(1)).findAll();
     }
+
+    @Test
+    public void testFindAllWhenEmpty() {
+        when(authorRepository.findAll()).thenReturn(Collections.emptyList());
+
+        assertThrows(ResourceNotFoundException.class, () -> {
+            authorService.findAll();
+        });
+
+        verify(authorRepository, times(1)).findAll();
+    }
+
 
     @Test
     public void testInsert() {
