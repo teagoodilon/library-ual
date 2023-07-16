@@ -2,6 +2,7 @@ package br.com.compass.pb.libraryual.service;
 
 import br.com.compass.pb.libraryual.domain.dto.BookDTO;
 import br.com.compass.pb.libraryual.domain.entity.Book;
+import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookService {
+
+    private static final String BOOK = "Book";
+    private static final String BOOK_NOT_FOUND = "Book not found with ID: ";
 
     private final BookRepository bookRepository;
 
@@ -27,14 +31,17 @@ public class BookService {
             Book book = optionalBook.get();
             return new BookDTO(book);
         }
-        return null;
+        throw new ResourceNotFoundException(BOOK, BOOK_NOT_FOUND + id);
     }
 
     public List<BookDTO> findAll() {
         List<Book> books = bookRepository.findAll();
+        if(!books.isEmpty()) {
         return books.stream()
                 .map(BookDTO::new)
                 .collect(Collectors.toList());
+        }
+        throw new ResourceNotFoundException(BOOK, "There are no records to display");
     }
 
     public BookDTO insert(BookDTO bookDTO) {
@@ -59,10 +66,15 @@ public class BookService {
             Book updatedBook = bookRepository.saveAndFlush(book);
             return new BookDTO(updatedBook);
         }
-        return null;
+        throw new ResourceNotFoundException(BOOK, BOOK_NOT_FOUND + id);
     }
 
     public void delete(Long id) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        if (optionalBook.isPresent()) {
         bookRepository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException(BOOK, BOOK_NOT_FOUND + id);
+        }
     }
 }
