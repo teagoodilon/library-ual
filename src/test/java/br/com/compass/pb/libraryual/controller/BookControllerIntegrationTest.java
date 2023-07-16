@@ -1,4 +1,4 @@
-package br.com.compass.pb.libraryual;
+package br.com.compass.pb.libraryual.controller;
 import br.com.compass.pb.libraryual.domain.entity.Author;
 import br.com.compass.pb.libraryual.domain.entity.Genre;
 import br.com.compass.pb.libraryual.domain.entity.PublishingCompany;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @AutoConfigureWebClient
-public class BookControllerTest {
+public class BookControllerIntegrationTest {
 
         @Autowired
         MockMvc mockMvc;
