@@ -25,13 +25,13 @@ class GenreControllerIntegrationTest {
     @Test
     @DisplayName("Should insert genre")
     void shouldInsertGenre() throws Exception {
-        String requestBody = "{\"name\": \"Jane Austen\"}";
+        String requestBody = "{\"name\": \"Fiction\"}";
         mockMvc.perform(post("/api/genre/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("Jane Austen"));
+                .andExpect(jsonPath("$.name").value("Fiction"));
     }
 
     @Test
@@ -51,7 +51,7 @@ class GenreControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id").value(1))
-                .andExpect(jsonPath("$[0].name").value("Jane Austen"));
+                .andExpect(jsonPath("$[0].name").value("Fiction"));
     }
 
     @Test
@@ -61,7 +61,7 @@ class GenreControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("Jane Austen"));
+                .andExpect(jsonPath("$.name").value("Fiction"));
     }
 
     @Test

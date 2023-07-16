@@ -3,11 +3,14 @@ package br.com.compass.pb.libraryual.controller;
 import br.com.compass.pb.libraryual.domain.dto.BookDTO;
 import br.com.compass.pb.libraryual.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/book")
@@ -35,8 +38,10 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") Long id) {
         bookService.delete(id);
-        return ResponseEntity.ok().build();
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
