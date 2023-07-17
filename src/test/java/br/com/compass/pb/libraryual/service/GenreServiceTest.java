@@ -4,12 +4,10 @@ import br.com.compass.pb.libraryual.domain.dto.GenreDTO;
 import br.com.compass.pb.libraryual.domain.entity.Genre;
 import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.GenreRepository;
-import br.com.compass.pb.libraryual.service.GenreService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -46,15 +44,18 @@ class GenreServiceTest {
 
         verify(genreRepository, times(1)).findById(id);
     }
+    @Test
+    void testFindById_InvalidInput() {
+        assertThrows(ResourceNotFoundException.class, () -> genreService.findById(null));
+        verify(genreRepository, never()).findById(anyLong());
+    }
 
     @Test
     void testFindById_NotFound() {
         Long invalidId = 80L;
         when(genreRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            genreService.findById(invalidId);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> genreService.findById(invalidId));
 
         verify(genreRepository, times(1)).findById(invalidId);
     }
@@ -76,9 +77,7 @@ class GenreServiceTest {
     void testFindAllWhenEmpty() {
         when(genreRepository.findAll()).thenReturn(Collections.emptyList());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            genreService.findAll();
-        });
+        assertThrows(ResourceNotFoundException.class, () -> genreService.findAll());
 
         verify(genreRepository, times(1)).findAll();
     }
@@ -119,9 +118,7 @@ class GenreServiceTest {
         GenreDTO genreDTO = createGenreDTO();
         when(genreRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            genreService.update(invalidId, genreDTO);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> genreService.update(invalidId, genreDTO));
 
         verify(genreRepository, times(1)).findById(invalidId);
         verify(genreRepository, never()).saveAndFlush(any(Genre.class));
@@ -142,11 +139,7 @@ class GenreServiceTest {
     @Test
     void testDelete_InvalidId() {
         Long invalidId = 80L;
-
-        assertThrows(ResourceNotFoundException.class, () -> {
-            genreService.delete(invalidId);
-        });
-
+        assertThrows(ResourceNotFoundException.class, () -> genreService.delete(invalidId));
         verify(genreRepository, times(0)).deleteById(invalidId);
     }
 
@@ -155,15 +148,12 @@ class GenreServiceTest {
         Genre genre = new Genre();
         genre.setId(1L);
         genre.setName("Genre");
-
         return genre;
     }
 
     private GenreDTO createGenreDTO() {
         Long id= 1L;
         String name = "Genre";
-        GenreDTO genreDTO = new GenreDTO(id, name);
-
-        return genreDTO;
+        return new GenreDTO(id, name);
     }
 }

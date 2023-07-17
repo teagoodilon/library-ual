@@ -4,12 +4,10 @@ import br.com.compass.pb.libraryual.domain.dto.AuthorDTO;
 import br.com.compass.pb.libraryual.domain.entity.Author;
 import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.AuthorRepository;
-import br.com.compass.pb.libraryual.service.AuthorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -46,15 +44,18 @@ class AuthorServiceTest {
 
         verify(authorRepository, times(1)).findById(authorId);
     }
+    @Test
+    void testFindById_InvalidInput() {
+        assertThrows(ResourceNotFoundException.class, () -> authorService.findById(null));
+        verify(authorRepository, never()).findById(anyLong());
+    }
 
     @Test
     void testFindById_NotFound() {
         Long invalidId = 80L;
         when(authorRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            authorService.findById(invalidId);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> authorService.findById(invalidId));
 
         verify(authorRepository, times(1)).findById(invalidId);
     }
@@ -76,9 +77,7 @@ class AuthorServiceTest {
     void testFindAllWhenEmpty() {
         when(authorRepository.findAll()).thenReturn(Collections.emptyList());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            authorService.findAll();
-        });
+        assertThrows(ResourceNotFoundException.class, () -> authorService.findAll());
 
         verify(authorRepository, times(1)).findAll();
     }
@@ -120,9 +119,7 @@ class AuthorServiceTest {
         AuthorDTO authorDTO = createAuthorDTO();
         when(authorRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            authorService.update(invalidId, authorDTO);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> authorService.update(invalidId, authorDTO));
 
         verify(authorRepository, times(1)).findById(invalidId);
         verify(authorRepository, never()).saveAndFlush(any(Author.class));
@@ -144,9 +141,7 @@ class AuthorServiceTest {
     void testDelete_InvalidId() {
         Long invalidId = 80L;
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            authorService.delete(invalidId);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> authorService.delete(invalidId));
 
         verify(authorRepository, times(0)).deleteById(invalidId);
     }
@@ -156,15 +151,12 @@ class AuthorServiceTest {
         Author author = new Author();
         author.setId(1L);
         author.setName("Author");
-
         return author;
     }
 
     private AuthorDTO createAuthorDTO() {
         Long id= 1L;
         String name = "Author";
-        AuthorDTO authorDTO = new AuthorDTO(id, name);
-
-        return authorDTO;
+        return new AuthorDTO(id, name);
     }
 }

@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 
-public class BookControllerIntegrationTest {
+class BookControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -167,7 +167,6 @@ public class BookControllerIntegrationTest {
 
     @Test
     @DisplayName("Should return status Method Not Allowed 405 when update is without parameter")
-    @DirtiesContext
     void shouldReturnStatus405WhenUpdateIsWithoutParameter() throws Exception {
         mockMvc.perform(put("/api/book/"))
                 .andExpect(status().isMethodNotAllowed())
@@ -187,7 +186,6 @@ public class BookControllerIntegrationTest {
 
     @Test
     @DisplayName("Should return status Method Not Allowed 405 when delete is without parameter")
-    @DirtiesContext
     void shouldReturnStatus405WhenDeleteIsWithoutParameter() throws Exception {
         mockMvc.perform(delete("/api/book/"))
                 .andExpect(status().isMethodNotAllowed())

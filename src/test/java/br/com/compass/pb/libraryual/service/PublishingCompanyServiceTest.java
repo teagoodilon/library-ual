@@ -4,12 +4,10 @@ import br.com.compass.pb.libraryual.domain.dto.PublishingCompanyDTO;
 import br.com.compass.pb.libraryual.domain.entity.PublishingCompany;
 import br.com.compass.pb.libraryual.exception.ResourceNotFoundException;
 import br.com.compass.pb.libraryual.repository.PublishingCompanyRepository;
-import br.com.compass.pb.libraryual.service.PublishingCompanyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -48,13 +46,17 @@ class PublishingCompanyServiceTest {
     }
 
     @Test
+    void testFindById_InvalidInput() {
+        assertThrows(ResourceNotFoundException.class, () -> publishingCompanyService.findById(null));
+        verify(publishingCompanyRepository, never()).findById(anyLong());
+    }
+
+    @Test
     void testFindById_NotFound() {
         Long invalidId = 80L;
         when(publishingCompanyRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            publishingCompanyService.findById(invalidId);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> publishingCompanyService.findById(invalidId));
 
         verify(publishingCompanyRepository, times(1)).findById(invalidId);
     }
@@ -76,9 +78,7 @@ class PublishingCompanyServiceTest {
     void testFindAllWhenEmpty() {
         when(publishingCompanyRepository.findAll()).thenReturn(Collections.emptyList());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            publishingCompanyService.findAll();
-        });
+        assertThrows(ResourceNotFoundException.class, () -> publishingCompanyService.findAll());
 
         verify(publishingCompanyRepository, times(1)).findAll();
     }
@@ -119,9 +119,7 @@ class PublishingCompanyServiceTest {
         PublishingCompanyDTO publishingCompanyDTO = createPublishingCompanyDTO();
         when(publishingCompanyRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            publishingCompanyService.update(invalidId, publishingCompanyDTO);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> publishingCompanyService.update(invalidId, publishingCompanyDTO));
 
         verify(publishingCompanyRepository, times(1)).findById(invalidId);
         verify(publishingCompanyRepository, never()).saveAndFlush(any(PublishingCompany.class));
@@ -143,26 +141,21 @@ class PublishingCompanyServiceTest {
     void testDelete_InvalidId() {
         Long invalidId = 80L;
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            publishingCompanyService.delete(invalidId);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> publishingCompanyService.delete(invalidId));
 
         verify(publishingCompanyRepository, times(0)).deleteById(invalidId);
     }
-
 
     private PublishingCompany createPublishingCompany() {
         PublishingCompany publishingCompany = new PublishingCompany();
         publishingCompany.setId(1L);
         publishingCompany.setName("publishingCompany");
-
         return publishingCompany;
     }
 
     private PublishingCompanyDTO createPublishingCompanyDTO() {
         Long id= 1L;
         String name = "publishingCompany";
-
         return new PublishingCompanyDTO(id, name);
     }
 }
