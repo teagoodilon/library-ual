@@ -27,18 +27,17 @@ Second project made in schollarship at Compass UOL, with the objective of organi
 - Wait for Maven to import the dependencies.
 - Build the project using Maven to download the dependencies and generate the executable package.
 - Run the LibraryUalApplication class to start the RESTful API server.
-- Step 4: Interacting with the API
+
+#### Step 4: Interacting with the API
 - Now that the API is running, you can start interacting with it using tools like cURL, Postman, or your browser.
 
 To test the API using cURL, open a terminal and send an HTTP request to the desired route: http://localhost:8080/swagger-ui/index.html#/
-
 
 ## 🧪 Tests
 
 JUnit 5 and Mockito were used for writing and executing unit tests at the Service classes. JUnit 5 allowed the testing of individual units of code in isolation and Mockito was used to create mock objects and defining simulated behaviors during unit tests. This combination enables thorough testing of the code's functionality at the unit level, ensuring that each component functions correctly and independently.
 
 For integration testing, the project utilizes JUnit 5 along with MockMvc and Spring Boot Test. MockMvc provides the ability to simulate HTTP requests and receive corresponding responses. The @SpringBootTest and @AutoConfigureMockMvc annotations from Spring Boot Test automatically configure MockMvc for integration testing, creating a test context that closely resembles the actual runtime environment. By employing these technologies, the project verifies the interaction between various components and ensures the integrity of the system as a whole.
-
 
 ## 🖥️ Technologies Used
 
@@ -48,7 +47,6 @@ For integration testing, the project utilizes JUnit 5 along with MockMvc and Spr
 - [XAMPP 8.0.28](https://www.apachefriends.org/pt_br/download.html)
 - [MySQL Workbench 8.0.33](https://www.mysql.com/products/workbench/)
 - [IntelliJ 2023.1.3](https://www.jetbrains.com/pt-br/idea/)
-
 
 ## 📋 Dependencies
 
@@ -75,4 +73,3 @@ We are extremely grateful to Compass.UOL for the great learning experience in th
 - [Kallyne Almeida da Rocha](https://github.com/KallyneRocha)
 - [Thiago Odilon de Almeida](https://github.com/teagoodilon) 
 - [Wolnei Assunçao Cordeiro](https://github.com/WolneiACordeiro)
-  
