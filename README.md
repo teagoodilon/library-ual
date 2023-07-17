@@ -62,7 +62,7 @@ The project's dependencies are in the [pom.xml](https://github.com/teagoodilon/l
 - [Mockito Core](https://mvnrepository.com/artifact/org.mockito/mockito-core)
 - [Mockito JUnit Jupiter](https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter)
 - [H2 Database](https://mvnrepository.com/artifact/com.h2database/h2)
-- [Springdoc OpenAPI](https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui) (versão 2.0.3)
+- [Springdoc OpenAPI](https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui) (2.0.3)
 
 ## 😆 Express our thanks
 We are extremely grateful to Compass.UOL for the great learning experience in this second challenge and all support we received. We are looking forward to the next ones! 
