@@ -170,7 +170,9 @@ class BookControllerIntegrationTest {
     void shouldReturnStatus405WhenUpdateIsWithoutParameter() throws Exception {
         mockMvc.perform(put("/api/book/"))
                 .andExpect(status().isMethodNotAllowed())
-                .andExpect(jsonPath("$.detail").value("The requested HTTP method 'PUT' is not supported. Supported methods are: GET, POST"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.detail")
+                .value(Matchers.either(Matchers.equalTo("The requested HTTP method 'PUT' is not supported. Supported methods are: GET, POST"))
+                .or(Matchers.equalTo("The requested HTTP method 'PUT' is not supported. Supported methods are: POST, GET"))));
     }
 
     @Test
@@ -189,7 +191,9 @@ class BookControllerIntegrationTest {
     void shouldReturnStatus405WhenDeleteIsWithoutParameter() throws Exception {
         mockMvc.perform(delete("/api/book/"))
                 .andExpect(status().isMethodNotAllowed())
-        .andExpect(jsonPath("$.detail").value("The requested HTTP method 'DELETE' is not supported. Supported methods are: GET, POST"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.detail")
+                .value(Matchers.either(Matchers.equalTo("The requested HTTP method 'DELETE' is not supported. Supported methods are: GET, POST"))
+                .or(Matchers.equalTo("The requested HTTP method 'DELETE' is not supported. Supported methods are: POST, GET"))));
     }
 
     @Test
