@@ -8,6 +8,9 @@ Second project made in schollarship at Compass UOL, with the objective of organi
 
 ### 🧪 Tests
 
+JUnit 5 and Mockito were used for writing and executing unit tests at the Service classes. JUnit 5 allowed the testing of individual units of code in isolation and Mockito was used to create mock objects and defining simulated behaviors during unit tests. This combination enables thorough testing of the code's functionality at the unit level, ensuring that each component functions correctly and independently.
+
+For integration testing, the project utilizes JUnit 5 along with MockMvc and Spring Boot Test. MockMvc provides the ability to simulate HTTP requests and receive corresponding responses. The @SpringBootTest and @AutoConfigureMockMvc annotations from Spring Boot Test automatically configure MockMvc for integration testing, creating a test context that closely resembles the actual runtime environment. By employing these technologies, the project verifies the interaction between various components and ensures the integrity of the system as a whole.
 
 
 
